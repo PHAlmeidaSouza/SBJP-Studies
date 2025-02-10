@@ -1,7 +1,7 @@
-package com.erudio.SBJP_Studies.exceptions.handler;
+package com.erudio.SBJP_Studies.exception.handler;
 
-import com.erudio.SBJP_Studies.exceptions.ExceptionResponse;
-import com.erudio.SBJP_Studies.exceptions.UnsupportedMathOperationException;
+import com.erudio.SBJP_Studies.exception.ExceptionResponse;
+import com.erudio.SBJP_Studies.exception.UnsupportedMathOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

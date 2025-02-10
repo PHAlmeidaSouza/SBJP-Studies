@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.erudio</groupId>
 	<artifactId>SBJP-Studies</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>SBJP-Studies</name>
-	<description>Demo project for Spring Boot</description>
+	<description>SBJP project</description>
 	<url/>
 	<licenses>
 		<license/>

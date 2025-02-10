@@ -1,4 +1,4 @@
-package com.erudio.SBJP_Studies.exceptions;
+package com.erudio.SBJP_Studies.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

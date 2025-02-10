@@ -1,4 +1,4 @@
-package com.erudio.SBJP_Studies.exceptions;
+package com.erudio.SBJP_Studies.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
