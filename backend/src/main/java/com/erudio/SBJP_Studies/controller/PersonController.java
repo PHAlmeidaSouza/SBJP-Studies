@@ -1,4 +1,4 @@
-package com.erudio.SBJP_Studies;
+package com.erudio.SBJP_Studies.controller;
 
 import com.erudio.SBJP_Studies.model.Person;
 import com.erudio.SBJP_Studies.service.PersonService;
@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/person")
 public class PersonController {
@@ -16,6 +18,13 @@ public class PersonController {
 
     public PersonController(PersonService personService) {
         this.personService = personService;
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> findAll() {
+        return personService.findAll();
     }
 
     @RequestMapping(value = "/{id}",
