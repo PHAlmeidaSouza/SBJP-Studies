@@ -1,7 +1,9 @@
 package com.erudio.SBJP_Studies.service;
 
 import com.erudio.SBJP_Studies.data.vo.v1.PersonVO;
+import com.erudio.SBJP_Studies.data.vo.v2.v1.PersonVOV2;
 import com.erudio.SBJP_Studies.mapper.DozerMapper;
+import com.erudio.SBJP_Studies.mapper.custom.PersonMapper;
 import com.erudio.SBJP_Studies.model.Person;
 import com.erudio.SBJP_Studies.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,11 @@ public class PersonService {
 
     private final PersonRepository personRepository;
 
-    public PersonService(PersonRepository personRepository) {
+    private final PersonMapper personMapper;
+
+    public PersonService(PersonRepository personRepository, PersonMapper personMapper) {
         this.personRepository = personRepository;
+        this.personMapper = personMapper;
     }
 
     public List<PersonVO> findAll() {
@@ -43,6 +48,15 @@ public class PersonService {
         var entity = DozerMapper.parseObject(person, Person.class);
 
         return DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 person) {
+
+        logger.info("Creating one person with V2!");
+
+        var entity = personMapper.convertVoToEntity(person);
+
+        return personMapper.convertEntityToVo(personRepository.save(entity));
     }
 
     public PersonVO update(PersonVO person) {

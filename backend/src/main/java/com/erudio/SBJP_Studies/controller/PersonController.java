@@ -1,6 +1,7 @@
 package com.erudio.SBJP_Studies.controller;
 
 import com.erudio.SBJP_Studies.data.vo.v1.PersonVO;
+import com.erudio.SBJP_Studies.data.vo.v2.v1.PersonVOV2;
 import com.erudio.SBJP_Studies.service.PersonService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,13 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonVO create(@RequestBody PersonVO person) {
         return personService.create(person);
+    }
+
+    @PostMapping(value = "/v2",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVOV2 createV2(@RequestBody PersonVOV2 person) {
+        return personService.createV2(person);
     }
 
     @PutMapping(
