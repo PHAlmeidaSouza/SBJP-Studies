@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=SBPJ_Studies
+    ports:
+      - "5433:5432"
