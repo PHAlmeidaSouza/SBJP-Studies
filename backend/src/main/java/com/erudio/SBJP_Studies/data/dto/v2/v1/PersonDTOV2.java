@@ -1,4 +1,4 @@
-package com.erudio.SBJP_Studies.data.vo.v2.v1;
+package com.erudio.SBJP_Studies.data.dto.v2.v1;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class PersonVOV2 implements Serializable {
+public class PersonDTOV2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

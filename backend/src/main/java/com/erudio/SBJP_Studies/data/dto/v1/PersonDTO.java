@@ -1,6 +1,5 @@
-package com.erudio.SBJP_Studies.data.vo.v1;
+package com.erudio.SBJP_Studies.data.dto.v1;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "first_name", "last_name", "address", "gender"})
-public class PersonVO implements Serializable {
+public class PersonDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

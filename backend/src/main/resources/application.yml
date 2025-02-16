@@ -6,7 +6,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: false
-    open-in-view: false
     properties:
       hibernate:
+    show-sql: false
+    open-in-view: false
+logging:
+  level:
+    com.erudio.SBJP_Studies: DEBUG

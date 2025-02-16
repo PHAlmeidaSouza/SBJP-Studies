@@ -1,20 +1,20 @@
 package com.erudio.SBJP_Studies.service;
 
-import com.erudio.SBJP_Studies.data.vo.v1.PersonVO;
-import com.erudio.SBJP_Studies.data.vo.v2.v1.PersonVOV2;
+import com.erudio.SBJP_Studies.data.dto.v1.PersonDTO;
+import com.erudio.SBJP_Studies.data.dto.v2.v1.PersonDTOV2;
 import com.erudio.SBJP_Studies.mapper.DozerMapper;
 import com.erudio.SBJP_Studies.mapper.custom.PersonMapper;
 import com.erudio.SBJP_Studies.model.Person;
 import com.erudio.SBJP_Studies.repository.PersonRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
+import org.slf4j.Logger;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class PersonService {
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     private final PersonRepository personRepository;
 
@@ -25,41 +25,41 @@ public class PersonService {
         this.personMapper = personMapper;
     }
 
-    public List<PersonVO> findAll() {
+    public List<PersonDTO> findAll() {
 
         logger.info("Finding all people!");
 
-        return DozerMapper.parseListObjects(personRepository.findAll(), PersonVO.class);
+        return DozerMapper.parseListObjects(personRepository.findAll(), PersonDTO.class);
     }
 
-    public PersonVO findById(Long id) {
+    public PersonDTO findById(Long id) {
 
         logger.info("Finding one person!");
 
         var entity = personRepository.findById(id).orElseThrow(() -> new RuntimeException("No records found for this ID!"));
 
-        return DozerMapper.parseObject(entity, PersonVO.class);
+        return DozerMapper.parseObject(entity, PersonDTO.class);
     }
 
-    public PersonVO create(PersonVO person) {
+    public PersonDTO create(PersonDTO person) {
 
         logger.info("Creating one person!");
 
         var entity = DozerMapper.parseObject(person, Person.class);
 
-        return DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+        return DozerMapper.parseObject(personRepository.save(entity), PersonDTO.class);
     }
 
-    public PersonVOV2 createV2(PersonVOV2 person) {
+    public PersonDTOV2 createV2(PersonDTOV2 person) {
 
         logger.info("Creating one person with V2!");
 
-        var entity = personMapper.convertVoToEntity(person);
+        var entity = personMapper.convertDTOToEntity(person);
 
-        return personMapper.convertEntityToVo(personRepository.save(entity));
+        return personMapper.convertEntityToDTO(personRepository.save(entity));
     }
 
-    public PersonVO update(PersonVO person) {
+    public PersonDTO update(PersonDTO person) {
 
         logger.info("Updating one person!");
 
@@ -70,7 +70,7 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+        return DozerMapper.parseObject(personRepository.save(entity), PersonDTO.class);
     }
 
     public void delete(Long id) {

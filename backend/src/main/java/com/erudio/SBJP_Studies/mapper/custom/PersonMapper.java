@@ -1,6 +1,6 @@
 package com.erudio.SBJP_Studies.mapper.custom;
 
-import com.erudio.SBJP_Studies.data.vo.v2.v1.PersonVOV2;
+import com.erudio.SBJP_Studies.data.dto.v2.v1.PersonDTOV2;
 import com.erudio.SBJP_Studies.model.Person;
 import org.springframework.stereotype.Service;
 
@@ -9,20 +9,20 @@ import java.util.Date;
 @Service
 public class PersonMapper {
 
-    public PersonVOV2 convertEntityToVo(Person person) {
+    public PersonDTOV2 convertEntityToDTO(Person person) {
 
-        PersonVOV2 vo = new PersonVOV2();
-        vo.setId(person.getId());
-        vo.setAddress(person.getAddress());
-        vo.setBirthDate(new Date());
-        vo.setFirstName(person.getFirstName());
-        vo.setLastName(person.getLastName());
-        vo.setGender(person.getGender());
+        PersonDTOV2 DTO = new PersonDTOV2();
+        DTO.setId(person.getId());
+        DTO.setAddress(person.getAddress());
+        DTO.setBirthDate(new Date());
+        DTO.setFirstName(person.getFirstName());
+        DTO.setLastName(person.getLastName());
+        DTO.setGender(person.getGender());
 
-        return vo;
+        return DTO;
     }
 
-    public Person convertVoToEntity(PersonVOV2 person) {
+    public Person convertDTOToEntity(PersonDTOV2 person) {
 
         Person entity = new Person();
         entity.setId(person.getId());

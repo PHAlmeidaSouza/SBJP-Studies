@@ -1,6 +1,6 @@
 package com.erudio.SBJP_Studies.unittest.mapper.mock;
 
-import com.erudio.SBJP_Studies.data.vo.v1.PersonVO;
+import com.erudio.SBJP_Studies.data.dto.v1.PersonDTO;
 import com.erudio.SBJP_Studies.model.Person;
 
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ public class MockPerson {
         return mockEntity(0);
     }
 
-    public PersonVO mockVO() {
-        return mockVO(0);
+    public PersonDTO mockDTO() {
+        return mockDTO(0);
     }
 
     public List<Person> mockEntityList() {
@@ -24,10 +24,10 @@ public class MockPerson {
         return persons;
     }
 
-    public List<PersonVO> mockVOList() {
-        List<PersonVO> persons = new ArrayList<>();
+    public List<PersonDTO> mockDTOList() {
+        List<PersonDTO> persons = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
-            persons.add(mockVO(i));
+            persons.add(mockDTO(i));
         }
         return persons;
     }
@@ -42,8 +42,8 @@ public class MockPerson {
         return person;
     }
 
-    public PersonVO mockVO(Integer number) {
-        PersonVO person = new PersonVO();
+    public PersonDTO mockDTO(Integer number) {
+        PersonDTO person = new PersonDTO();
         person.setAddress("Addres Test" + number);
         person.setFirstName("First Name Test" + number);
         person.setGender(((number % 2)==0) ? "Male" : "Female");
