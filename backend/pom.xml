@@ -51,6 +51,11 @@
 			<artifactId>flyway-database-postgresql</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
 		<!-- Dozer Mapper -->
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>
