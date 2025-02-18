@@ -71,7 +71,7 @@ public class PersonService {
         return personMapper.convertEntityToDTO(personRepository.save(entity));
     }
 
-        public PersonDTO update(PersonDTO person) {
+    public PersonDTO update(PersonDTO person) {
 
         if (person == null) throw new RequiredObjectIsNullException();
 
