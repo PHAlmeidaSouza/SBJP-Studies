@@ -1,6 +1,7 @@
 package com.erudio.SBJP_Studies.exception.handler;
 
 import com.erudio.SBJP_Studies.exception.ExceptionResponse;
+import com.erudio.SBJP_Studies.exception.RequiredObjectIsNullException;
 import com.erudio.SBJP_Studies.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.Date;
 
 @ControllerAdvice
 @RestControllerAdvice
-public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionResponse> handleAllExceptions(
@@ -40,5 +41,16 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(RequiredObjectIsNullException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(
+            Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 
 }
