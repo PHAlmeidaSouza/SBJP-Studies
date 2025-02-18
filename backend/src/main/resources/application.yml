@@ -12,4 +12,4 @@ spring:
     open-in-view: false
 logging:
   level:
-    com.erudio.SBJP_Studies: DEBUG
+    root: info
