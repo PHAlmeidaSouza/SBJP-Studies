@@ -1,7 +1,7 @@
 package com.erudio.SBJP_Studies.controller.docs;
 
 import com.erudio.SBJP_Studies.data.dto.v1.BookDTO;
-import com.erudio.SBJP_Studies.data.dto.v1.PersonDTO;
+import com.erudio.SBJP_Studies.data.dto.v1.BookDTO;
 import com.erudio.SBJP_Studies.util.MediaType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -27,7 +27,7 @@ public interface BookControllerDocs {
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON,
-                                            array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class))
+                                            array = @ArraySchema(schema = @Schema(implementation = BookDTO.class))
                                     )
                             }
                     ),

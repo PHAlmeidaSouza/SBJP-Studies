@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -25,7 +26,7 @@ public class Book implements Serializable {
 
     @Column(name = "launch_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private String launchDate;
+    private Date launchDate;
 
     @Column(nullable = false)
     private Double price;
