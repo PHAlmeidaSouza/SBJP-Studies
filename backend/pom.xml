@@ -24,6 +24,8 @@
 		<lombok.version>1.18.30</lombok.version>
 		<spring-boot.version>3.4.2</spring-boot.version>
 		<springdoc.version>2.8.5</springdoc.version>
+		<testcontainers.version>1.20.5</testcontainers.version>
+		<rest-assured.version>5.5.1</rest-assured.version>
 	</properties>
 
 	<dependencies>
@@ -101,6 +103,22 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<version>${spring-boot.version}</version>
+		</dependency>
+
+		<!-- Testcontainers -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- REST Assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest-assured.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Development Tools -->
