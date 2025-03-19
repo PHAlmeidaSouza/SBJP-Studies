@@ -41,12 +41,12 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         mockPerson();
 
          specification = new RequestSpecBuilder()
-                 .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
-                 .setBasePath("/api/person/v1")
-                 .setPort(TestConfig.SERVER_PORT)
-                     .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                     .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-                 .build();
+             .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
+             .setBasePath("/api/person/v1")
+             .setPort(TestConfig.SERVER_PORT)
+                 .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                 .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+             .build();
 
         var content = given(specification)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -55,6 +55,7 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .post()
             .then()
                 .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
             .extract()
                 .body()
                     .asString();
@@ -79,15 +80,16 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         personDTO.setLastName("Benedit Torvalds");
 
         var content = given(specification)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(personDTO)
-                .when()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(personDTO)
+            .when()
                 .put()
-                .then()
+            .then()
                 .statusCode(200)
-                .extract()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .extract()
                 .body()
-                .asString();
+                    .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -108,15 +110,16 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     void findByIdTest() throws JsonProcessingException {
 
         var content = given(specification)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .pathParam("id", personDTO.getId())
+            .when()
+                .get("{id}")
+            .then()
+                .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("id", personDTO.getId())
-                .when()
-                    .get("{id}")
-                .then()
-                    .statusCode(200)
-                .extract()
-                    .body()
-                        .asString();
+            .extract()
+                .body()
+                    .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -130,6 +133,51 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertEquals("Helsink - Finland", createdPerson.getAddress());
         assertEquals("Binary", createdPerson.getGender());
         assertTrue(createdPerson.getEnabled());
+    }
+
+    @Test
+    @Order(value = 4)
+    void disabledTest() throws JsonProcessingException {
+
+        var content = given(specification)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .pathParam("id", personDTO.getId())
+            .when()
+                .patch("{id}")
+            .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .extract()
+                .body()
+                    .asString();
+
+        PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
+
+        personDTO = createdPerson;
+
+        assertNotNull(createdPerson.getId());
+        assertTrue(createdPerson.getId() > 0);
+
+        assertEquals("Linus", createdPerson.getFirstName());
+        assertEquals("Benedit Torvalds", createdPerson.getLastName());
+        assertEquals("Helsink - Finland", createdPerson.getAddress());
+        assertEquals("Binary", createdPerson.getGender());
+        assertFalse(createdPerson.getEnabled());
+    }
+
+    @Test
+    @Order(value = 5)
+    void deleteTest() throws JsonProcessingException {
+
+        given(specification)
+            .pathParam("id", personDTO.getId())
+            .when()
+                .delete("{id}")
+            .then()
+                .statusCode(204)
+            .extract()
+                .body()
+                    .asString();
     }
 
     private void mockPerson() {
