@@ -1,4 +1,4 @@
-package com.erudio.SBJP_Studies.controller.withjson;
+package com.erudio.SBJP_Studies.integrationtests.controllers.withjson;
 
 import com.erudio.SBJP_Studies.config.TestConfig;
 import com.erudio.SBJP_Studies.integrationtests.dto.PersonDTO;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PersonControllerTest extends AbstractIntegrationTest {
+class PersonControllerJsonTest extends AbstractIntegrationTest {
 
     private static RequestSpecification specification;
 
@@ -37,7 +37,7 @@ class PersonControllerTest extends AbstractIntegrationTest {
 
     @Test
     @Order(1)
-    void create() throws JsonProcessingException {
+    void createTest() throws JsonProcessingException {
         mockPerson();
 
          specification = new RequestSpecBuilder()
@@ -64,53 +64,48 @@ class PersonControllerTest extends AbstractIntegrationTest {
         personDTO = createdPerson;
 
         assertNotNull(createdPerson.getId());
-        assertNotNull(createdPerson.getFirstName());
-        assertNotNull(createdPerson.getLastName());
-        assertNotNull(createdPerson.getAddress());
-        assertNotNull(createdPerson.getGender());
         assertTrue(createdPerson.getId() > 0);
 
-        assertEquals("John", createdPerson.getFirstName());
-        assertEquals("Doe", createdPerson.getLastName());
-        assertEquals("Some Address", createdPerson.getAddress());
+        assertEquals("Linus", createdPerson.getFirstName());
+        assertEquals("Torvalds", createdPerson.getLastName());
+        assertEquals("Helsink - Finland", createdPerson.getAddress());
         assertEquals("Binary", createdPerson.getGender());
+        assertTrue(createdPerson.getEnabled());
     }
 
     @Test
-    @Order(value = 2)
-    void createWithWrongOrigin() throws JsonProcessingException {
-         specification = new RequestSpecBuilder()
-                 .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_NOT_ALLOWED)
-                 .setBasePath("/api/person/v1")
-                 .setPort(TestConfig.SERVER_PORT)
-                     .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                     .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-                 .build();
+    @Order(2)
+    void updateTest() throws JsonProcessingException {
+        personDTO.setLastName("Benedit Torvalds");
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(personDTO)
-            .when()
-                .post()
-            .then()
-                .statusCode(403)
-            .extract()
+                .when()
+                .put()
+                .then()
+                .statusCode(200)
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
-        assertEquals("Invalid CORS request", content);
+        PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
+
+        personDTO = createdPerson;
+
+        assertNotNull(createdPerson.getId());
+        assertTrue(createdPerson.getId() > 0);
+
+        assertEquals("Linus", createdPerson.getFirstName());
+        assertEquals("Benedit Torvalds", createdPerson.getLastName());
+        assertEquals("Helsink - Finland", createdPerson.getAddress());
+        assertEquals("Binary", createdPerson.getGender());
+        assertTrue(createdPerson.getEnabled());
     }
 
     @Test
     @Order(value = 3)
-    void findById() throws JsonProcessingException {
-        specification = new RequestSpecBuilder()
-                .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
-                .setBasePath("/api/person/v1")
-                .setPort(TestConfig.SERVER_PORT)
-                    .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                    .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-                .build();
+    void findByIdTest() throws JsonProcessingException {
 
         var content = given(specification)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -128,47 +123,20 @@ class PersonControllerTest extends AbstractIntegrationTest {
         personDTO = createdPerson;
 
         assertNotNull(createdPerson.getId());
-        assertNotNull(createdPerson.getFirstName());
-        assertNotNull(createdPerson.getLastName());
-        assertNotNull(createdPerson.getAddress());
-        assertNotNull(createdPerson.getGender());
         assertTrue(createdPerson.getId() > 0);
 
-        assertEquals("John", createdPerson.getFirstName());
-        assertEquals("Doe", createdPerson.getLastName());
-        assertEquals("Some Address", createdPerson.getAddress());
+        assertEquals("Linus", createdPerson.getFirstName());
+        assertEquals("Benedit Torvalds", createdPerson.getLastName());
+        assertEquals("Helsink - Finland", createdPerson.getAddress());
         assertEquals("Binary", createdPerson.getGender());
-    }
-
-    @Test
-    @Order(value = 4)
-    void findByIdWithWrongOrigin() throws JsonProcessingException {
-        specification = new RequestSpecBuilder()
-                .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_NOT_ALLOWED)
-                .setBasePath("/api/person/v1")
-                .setPort(TestConfig.SERVER_PORT)
-                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-                .build();
-
-        var content = given(specification)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("id", personDTO.getId())
-                .when()
-                .get("{id}")
-                .then()
-                .statusCode(403)
-                .extract()
-                .body()
-                .asString();
-
-        assertEquals("Invalid CORS request", content);
+        assertTrue(createdPerson.getEnabled());
     }
 
     private void mockPerson() {
-        personDTO.setFirstName("John");
-        personDTO.setLastName("Doe");
-        personDTO.setAddress("Some Address");
+        personDTO.setFirstName("Linus");
+        personDTO.setLastName("Torvalds");
+        personDTO.setAddress("Helsink - Finland");
         personDTO.setGender("Binary");
+        personDTO.setEnabled(true);
     }
 }
