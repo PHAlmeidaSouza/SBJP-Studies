@@ -25,7 +25,7 @@ public class PersonController implements PersonControllerDocs {
 
     @Override
     @GetMapping(
-        produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public List<PersonDTO> findAll() {
         return personService.findAll();
     }
@@ -33,7 +33,7 @@ public class PersonController implements PersonControllerDocs {
     //@CrossOrigin(origins = "http://localhost:8080")
     @Override
     @GetMapping(value = "/{id}",
-        produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public PersonDTO findById(@PathVariable(value = "id") Long id) {
         return personService.findById(id);
     }
@@ -41,26 +41,33 @@ public class PersonController implements PersonControllerDocs {
     //@CrossOrigin(origins = {"http://localhost:8080", "https://github.com/PHAlmeidaSouza"})
     @Override
     @PostMapping(
-        consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
-        produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+            consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public PersonDTO create(@RequestBody PersonDTO person) {
         return personService.create(person);
     }
 
     @Override
     @PostMapping(value = "/v2",
-        consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
-        produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+            consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public PersonDTOV2 createV2(@RequestBody PersonDTOV2 person) {
         return personService.createV2(person);
     }
 
     @Override
     @PutMapping(
-        consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
-        produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+            consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public PersonDTO update(@RequestBody PersonDTO person) {
         return personService.update(person);
+    }
+
+    @Override
+    @PatchMapping(value = "/{id}",
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+    public PersonDTO disablePerson(@PathVariable(value = "id") Long id) {
+        return personService.disablePerson(id);
     }
 
     @Override

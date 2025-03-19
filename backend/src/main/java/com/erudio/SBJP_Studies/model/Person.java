@@ -32,4 +32,7 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 50)
     private String gender;
 
+    @Column(nullable = false)
+    private Boolean enabled;
+
 }

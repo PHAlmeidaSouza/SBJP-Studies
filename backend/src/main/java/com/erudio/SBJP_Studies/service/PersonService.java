@@ -8,6 +8,7 @@ import com.erudio.SBJP_Studies.exception.ResourceNotFoundException;
 import com.erudio.SBJP_Studies.mapper.custom.PersonMapper;
 import com.erudio.SBJP_Studies.model.Person;
 import com.erudio.SBJP_Studies.repository.PersonRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class PersonService {
 
         var entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-        var dto =  parseObject(entity, PersonDTO.class);
+        var dto = parseObject(entity, PersonDTO.class);
         addHateoasLinks(dto);
         return dto;
     }
@@ -98,11 +99,28 @@ public class PersonService {
         personRepository.delete(entity);
     }
 
+    @Transactional
+    public PersonDTO disablePerson(Long id) {
+
+        logger.info("Disabling one Person!");
+
+        personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        personRepository.disablePerson(id);
+
+        var entity = personRepository.findById(id).get();
+
+        var dto = parseObject(entity, PersonDTO.class);
+        addHateoasLinks(dto);
+        return dto;
+    }
+
     private void addHateoasLinks(PersonDTO dto) {
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
         dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
     }
 }
