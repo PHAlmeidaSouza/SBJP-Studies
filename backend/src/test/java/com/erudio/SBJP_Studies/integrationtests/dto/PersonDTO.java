@@ -1,5 +1,6 @@
 package com.erudio.SBJP_Studies.integrationtests.dto;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
+@XmlRootElement
 public class PersonDTO implements Serializable {
 
     @Serial

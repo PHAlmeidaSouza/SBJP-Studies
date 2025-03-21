@@ -1,4 +1,4 @@
-package com.erudio.SBJP_Studies.integrationtests.controllers.withjson;
+package com.erudio.SBJP_Studies.integrationtests.controllers.withxml;
 
 import com.erudio.SBJP_Studies.config.TestConfig;
 import com.erudio.SBJP_Studies.integrationtests.dto.PersonDTO;
@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -23,17 +24,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PersonControllerJsonTest extends AbstractIntegrationTest {
+class PersonControllerXmlTest extends AbstractIntegrationTest {
 
     private static RequestSpecification specification;
 
-    private static ObjectMapper objectMapper;
+    private static XmlMapper objectMapper;
 
     private static PersonDTO person;
 
     @BeforeAll
     static void setUp() {
-        objectMapper = new ObjectMapper();
+        objectMapper = new XmlMapper();
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         person = new PersonDTO();
     }
@@ -52,13 +53,14 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
              .build();
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_XML_VALUE)
+            .accept(MediaType.APPLICATION_XML_VALUE)
                 .body(person)
             .when()
                 .post()
             .then()
                 .statusCode(200)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
             .extract()
                 .body()
                     .asString();
@@ -83,13 +85,14 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         person.setLastName("Benedit Torvalds");
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(person)
+            .contentType(MediaType.APPLICATION_XML_VALUE)
+            .accept(MediaType.APPLICATION_XML_VALUE)
+                .body(person)
             .when()
                 .put()
             .then()
                 .statusCode(200)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
             .extract()
                 .body()
                     .asString();
@@ -113,13 +116,14 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     void findByIdTest() throws JsonProcessingException {
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .pathParam("id", person.getId())
+            .contentType(MediaType.APPLICATION_XML_VALUE)
+            .accept(MediaType.APPLICATION_XML_VALUE)
+                .pathParam("id", person.getId())
             .when()
                 .get("{id}")
             .then()
                 .statusCode(200)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
             .extract()
                 .body()
                     .asString();
@@ -143,13 +147,13 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     void disabledTest() throws JsonProcessingException {
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .pathParam("id", person.getId())
+            .accept(MediaType.APPLICATION_XML_VALUE)
+                .pathParam("id", person.getId())
             .when()
                 .patch("{id}")
             .then()
                 .statusCode(200)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
             .extract()
                 .body()
                     .asString();
@@ -188,12 +192,12 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     void findAllTest() throws JsonProcessingException {
 
         var content = given(specification)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+            .accept(MediaType.APPLICATION_XML_VALUE)
             .when()
                 .get()
             .then()
                 .statusCode(200)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
             .extract()
                 .body()
                     .asString();
