@@ -6,6 +6,9 @@ import com.erudio.SBJP_Studies.data.dto.v2.v1.PersonDTOV2;
 import com.erudio.SBJP_Studies.service.PersonService;
 import com.erudio.SBJP_Studies.util.MediaType;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +29,12 @@ public class PersonController implements PersonControllerDocs {
     @Override
     @GetMapping(
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public List<PersonDTO> findAll() {
-        return personService.findAll();
+    public ResponseEntity<Page<PersonDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(personService.findAll(pageable));
     }
 
     //@CrossOrigin(origins = "http://localhost:8080")
