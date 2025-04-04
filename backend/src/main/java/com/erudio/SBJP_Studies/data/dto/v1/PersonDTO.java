@@ -2,10 +2,13 @@ package com.erudio.SBJP_Studies.data.dto.v1;
 
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serial;
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = true)
+@Relation(collectionRelation = "people")
 @Data
 @NoArgsConstructor
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
