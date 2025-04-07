@@ -43,6 +43,20 @@ public class PersonController implements PersonControllerDocs {
         return ResponseEntity.ok(personService.findAll(pageable));
     }
 
+    @Override
+    @GetMapping(value = "/findPeopleByName/{firstName}",
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+    public ResponseEntity<PagedModel<EntityModel<PersonDTO>>> findByName(
+            @PathVariable("firstName") String firstName,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction
+    ) {
+        var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
+        return ResponseEntity.ok(personService.findByName(firstName, pageable));
+    }
+
     //@CrossOrigin(origins = "http://localhost:8080")
     @Override
     @GetMapping(value = "/{id}",
