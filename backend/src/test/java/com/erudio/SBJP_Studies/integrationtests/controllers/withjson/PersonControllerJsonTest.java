@@ -2,10 +2,9 @@ package com.erudio.SBJP_Studies.integrationtests.controllers.withjson;
 
 import com.erudio.SBJP_Studies.config.TestConfig;
 import com.erudio.SBJP_Studies.integrationtests.dto.PersonDTO;
-import com.erudio.SBJP_Studies.integrationtests.dto.wrapper.WrapperPersonDTO;
+import com.erudio.SBJP_Studies.integrationtests.dto.wrapper.json.WrapperPersonDTO;
 import com.erudio.SBJP_Studies.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.builder.RequestSpecBuilder;

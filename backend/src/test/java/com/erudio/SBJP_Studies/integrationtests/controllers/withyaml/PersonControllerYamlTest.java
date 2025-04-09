@@ -3,6 +3,7 @@ package com.erudio.SBJP_Studies.integrationtests.controllers.withyaml;
 import com.erudio.SBJP_Studies.config.TestConfig;
 import com.erudio.SBJP_Studies.integrationtests.controllers.withyaml.mapper.YAMLMapper;
 import com.erudio.SBJP_Studies.integrationtests.dto.PersonDTO;
+import com.erudio.SBJP_Studies.integrationtests.dto.wrapper.xml.PagedModelPerson;
 import com.erudio.SBJP_Studies.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.builder.RequestSpecBuilder;
@@ -223,9 +224,9 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
             .extract()
                 .body()
-                    .as(PersonDTO[].class, objectMapper);
+                    .as(PagedModelPerson.class, objectMapper);
 
-        List<PersonDTO> people = Arrays.asList(response);
+        List<PersonDTO> people = response.getContent();
 
         PersonDTO personOne = people.getFirst();
         person = personOne;

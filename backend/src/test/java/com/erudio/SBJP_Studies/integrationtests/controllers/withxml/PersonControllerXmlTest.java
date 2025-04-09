@@ -2,6 +2,7 @@ package com.erudio.SBJP_Studies.integrationtests.controllers.withxml;
 
 import com.erudio.SBJP_Studies.config.TestConfig;
 import com.erudio.SBJP_Studies.integrationtests.dto.PersonDTO;
+import com.erudio.SBJP_Studies.integrationtests.dto.wrapper.xml.PagedModelPerson;
 import com.erudio.SBJP_Studies.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -203,7 +204,8 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
                 .body()
                     .asString();
 
-        List<PersonDTO> people = objectMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+        PagedModelPerson wrapper = objectMapper.readValue(content, PagedModelPerson.class);
+        List<PersonDTO> people = wrapper.getContent();
 
         PersonDTO personOne = people.getFirst();
         person = personOne;

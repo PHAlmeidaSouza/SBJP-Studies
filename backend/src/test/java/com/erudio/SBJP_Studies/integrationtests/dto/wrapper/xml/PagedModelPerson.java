@@ -1,7 +1,8 @@
-package com.erudio.SBJP_Studies.integrationtests.dto.wrapper;
+package com.erudio.SBJP_Studies.integrationtests.dto.wrapper.xml;
 
 import com.erudio.SBJP_Studies.integrationtests.dto.PersonDTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,12 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PersonEmbeddedDTO implements Serializable {
+@XmlRootElement
+public class PagedModelPerson implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("people")
-    private List<PersonDTO> people;
-
+    @XmlElement(name = "content")
+    private List<PersonDTO> content;
 }
