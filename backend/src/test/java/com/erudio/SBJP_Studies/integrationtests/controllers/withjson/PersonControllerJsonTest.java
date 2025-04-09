@@ -26,9 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PersonControllerJsonTest extends AbstractIntegrationTest {
 
     private static RequestSpecification specification;
-
     private static ObjectMapper objectMapper;
-
     private static PersonDTO person;
 
     @BeforeAll
@@ -43,25 +41,25 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     void createTest() throws JsonProcessingException {
         mockPerson();
 
-         specification = new RequestSpecBuilder()
-             .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
-             .setBasePath("/api/person/v1")
-             .setPort(TestConfig.SERVER_PORT)
-                 .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                 .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-             .build();
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
+                .setBasePath("/api/person/v1")
+                .setPort(TestConfig.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(person)
-            .when()
+                .when()
                 .post()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -83,16 +81,16 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         person.setLastName("Benedit Torvalds");
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(person)
-            .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(person)
+                .when()
                 .put()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -109,20 +107,19 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(value = 3)
+    @Order(3)
     void findByIdTest() throws JsonProcessingException {
-
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .pathParam("id", person.getId())
-            .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", person.getId())
+                .when()
                 .get("{id}")
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -139,20 +136,19 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(value = 4)
+    @Order(4)
     void disabledTest() throws JsonProcessingException {
-
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .pathParam("id", person.getId())
-            .when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", person.getId())
+                .when()
                 .patch("{id}")
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -169,35 +165,30 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(value = 5)
-    void deleteTest() throws JsonProcessingException {
-
+    @Order(5)
+    void deleteTest() {
         given(specification)
-            .pathParam("id", person.getId())
-            .when()
+                .pathParam("id", person.getId())
+                .when()
                 .delete("{id}")
-            .then()
-                .statusCode(204)
-            .extract()
-                .body()
-                    .asString();
+                .then()
+                .statusCode(204);
     }
 
     @Test
-    @Order(value = 6)
+    @Order(6)
     void findAllTest() throws JsonProcessingException {
-
         var content = given(specification)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .queryParams("page", 3, "size", 12, "direction", "asc")
-            .when()
+                .when()
                 .get()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         WrapperPersonDTO wrapper = objectMapper.readValue(content, WrapperPersonDTO.class);
         List<PersonDTO> people = wrapper.getEmbedded().getPeople();

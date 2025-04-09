@@ -1,20 +1,17 @@
-package com.erudio.SBJP_Studies.data.dto.v1;
+package com.erudio.SBJP_Studies.integrationtests.dto;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
-@Relation(collectionRelation = "books")
 @Data
 @NoArgsConstructor
-public class BookDTO extends RepresentationModel<BookDTO> implements Serializable {
+@XmlRootElement
+public class BookDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -24,5 +21,4 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
     private Date launchDate;
     private Double price;
     private String title;
-
 }

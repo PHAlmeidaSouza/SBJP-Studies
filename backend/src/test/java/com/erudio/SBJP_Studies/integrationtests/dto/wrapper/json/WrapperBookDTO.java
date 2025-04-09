@@ -11,11 +11,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class WrapperPersonDTO implements Serializable {
+public class WrapperBookDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("_embedded")
-    private PersonEmbeddedDTO embedded;
+    private BookEmbeddedDTO embedded;
 }
