@@ -193,6 +193,7 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
 
         var content = given(specification)
             .accept(MediaType.APPLICATION_XML_VALUE)
+                .queryParams("page", 3, "size", 12, "direction", "asc")
             .when()
                 .get()
             .then()
@@ -210,22 +211,22 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
 
-        assertEquals("John", personOne.getFirstName());
-        assertEquals("Doe", personOne.getLastName());
-        assertEquals("123 Main Street", personOne.getAddress());
+        assertEquals("Andrea", personOne.getFirstName());
+        assertEquals("Siverns", personOne.getLastName());
+        assertEquals("PO Box 4880", personOne.getAddress());
         assertEquals("Male", personOne.getGender());
         assertTrue(personOne.getEnabled());
 
-        PersonDTO personFour = people.get(3);
+        PersonDTO personFour = people.get(4);
         person = personFour;
 
         assertNotNull(personFour.getId());
         assertTrue(personFour.getId() > 0);
 
-        assertEquals("Bob", personFour.getFirstName());
-        assertEquals("Williams", personFour.getLastName());
-        assertEquals("321 Pine Street", personFour.getAddress());
-        assertEquals("Male", personFour.getGender());
+        assertEquals("Angelle", personFour.getFirstName());
+        assertEquals("O'Nion", personFour.getLastName());
+        assertEquals("Apt 1896", personFour.getAddress());
+        assertEquals("Female", personFour.getGender());
         assertTrue(personFour.getEnabled());
     }
 
