@@ -209,6 +209,62 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertEquals("PO Box 4880", personOne.getAddress());
         assertEquals("Male", personOne.getGender());
         assertTrue(personOne.getEnabled());
+
+        PersonDTO personFour = people.get(4);
+        person = personFour;
+
+        assertNotNull(personFour.getId());
+        assertTrue(personFour.getId() > 0);
+
+        assertEquals("Angelle", personFour.getFirstName());
+        assertEquals("O'Nion", personFour.getLastName());
+        assertEquals("Apt 1896", personFour.getAddress());
+        assertEquals("Female", personFour.getGender());
+        assertTrue(personFour.getEnabled());
+    }
+
+    @Test
+    @Order(7)
+    void findByNameTest() throws JsonProcessingException {
+        var content = given(specification)
+                .accept(MediaType.APPLICATION_XML_VALUE)
+                .pathParam("firstName", "and")
+                .queryParams("page", 0, "size", 12, "direction", "asc")
+                .when()
+                .get("findPeopleByName/{firstName}")
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
+                .extract()
+                .body()
+                .asString();
+
+        PagedModelPerson wrapper = objectMapper.readValue(content, PagedModelPerson.class);
+        List<PersonDTO> people = wrapper.getContent();
+
+        PersonDTO personOne = people.getFirst();
+        person = personOne;
+
+        assertNotNull(personOne.getId());
+        assertTrue(personOne.getId() > 0);
+
+        assertEquals("Alexandros", personOne.getFirstName());
+        assertEquals("Dunridge", personOne.getLastName());
+        assertEquals("Suite 22", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+        assertFalse(personOne.getEnabled());
+
+        PersonDTO personFour = people.get(4);
+        person = personFour;
+
+        assertNotNull(personFour.getId());
+        assertTrue(personFour.getId() > 0);
+
+        assertEquals("Candie", personFour.getFirstName());
+        assertEquals("Pasby", personFour.getLastName());
+        assertEquals("Suite 26", personFour.getAddress());
+        assertEquals("Female", personFour.getGender());
+        assertTrue(personFour.getEnabled());
     }
 
     private void mockPerson() {

@@ -250,6 +250,55 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
         assertTrue(personFour.getEnabled());
     }
 
+    @Test
+    @Order(value = 7)
+    void findByNameTest() throws JsonProcessingException {
+
+        var response = given().config(
+                        RestAssuredConfig.config()
+                                .encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(
+                                        MediaType.APPLICATION_YAML_VALUE,
+                                        ContentType.TEXT))
+                ).spec(specification)
+                .accept(MediaType.APPLICATION_YAML_VALUE)
+                .pathParam("firstName", "and")
+                .queryParams("page", 0, "size", 12, "direction", "asc")
+                .when()
+                .get("findPeopleByName/{firstName}")
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_YAML_VALUE)
+                .extract()
+                .body()
+                .as(PagedModelPerson.class, objectMapper);
+
+        List<PersonDTO> people = response.getContent();
+
+        PersonDTO personOne = people.getFirst();
+        person = personOne;
+
+        assertNotNull(personOne.getId());
+        assertTrue(personOne.getId() > 0);
+
+        assertEquals("Alexandros", personOne.getFirstName());
+        assertEquals("Dunridge", personOne.getLastName());
+        assertEquals("Suite 22", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+        assertFalse(personOne.getEnabled());
+
+        PersonDTO personFour = people.get(4);
+        person = personFour;
+
+        assertNotNull(personFour.getId());
+        assertTrue(personFour.getId() > 0);
+
+        assertEquals("Candie", personFour.getFirstName());
+        assertEquals("Pasby", personFour.getLastName());
+        assertEquals("Suite 26", personFour.getAddress());
+        assertEquals("Female", personFour.getGender());
+        assertTrue(personFour.getEnabled());
+    }
+
     private void mockPerson() {
         person.setFirstName("Linus");
         person.setLastName("Torvalds");
