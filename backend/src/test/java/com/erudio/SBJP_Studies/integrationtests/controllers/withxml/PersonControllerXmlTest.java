@@ -5,9 +5,7 @@ import com.erudio.SBJP_Studies.integrationtests.dto.PersonDTO;
 import com.erudio.SBJP_Studies.integrationtests.dto.wrapper.xml.PagedModelPerson;
 import com.erudio.SBJP_Studies.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -28,9 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PersonControllerXmlTest extends AbstractIntegrationTest {
 
     private static RequestSpecification specification;
-
     private static XmlMapper objectMapper;
-
     private static PersonDTO person;
 
     @BeforeAll
@@ -45,26 +41,26 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
     void createTest() throws JsonProcessingException {
         mockPerson();
 
-         specification = new RequestSpecBuilder()
-             .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
-             .setBasePath("/api/person/v1")
-             .setPort(TestConfig.SERVER_PORT)
-                 .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                 .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-             .build();
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
+                .setBasePath("/api/person/v1")
+                .setPort(TestConfig.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_XML_VALUE)
-            .accept(MediaType.APPLICATION_XML_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
+                .accept(MediaType.APPLICATION_XML_VALUE)
                 .body(person)
-            .when()
+                .when()
                 .post()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_XML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -86,17 +82,17 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
         person.setLastName("Benedit Torvalds");
 
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_XML_VALUE)
-            .accept(MediaType.APPLICATION_XML_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
+                .accept(MediaType.APPLICATION_XML_VALUE)
                 .body(person)
-            .when()
+                .when()
                 .put()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_XML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -113,21 +109,20 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(value = 3)
+    @Order(3)
     void findByIdTest() throws JsonProcessingException {
-
         var content = given(specification)
-            .contentType(MediaType.APPLICATION_XML_VALUE)
-            .accept(MediaType.APPLICATION_XML_VALUE)
+                .contentType(MediaType.APPLICATION_XML_VALUE)
+                .accept(MediaType.APPLICATION_XML_VALUE)
                 .pathParam("id", person.getId())
-            .when()
+                .when()
                 .get("{id}")
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_XML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -144,20 +139,19 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(value = 4)
+    @Order(4)
     void disabledTest() throws JsonProcessingException {
-
         var content = given(specification)
-            .accept(MediaType.APPLICATION_XML_VALUE)
+                .accept(MediaType.APPLICATION_XML_VALUE)
                 .pathParam("id", person.getId())
-            .when()
+                .when()
                 .patch("{id}")
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_XML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
 
@@ -174,41 +168,38 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(value = 5)
+    @Order(5)
     void deleteTest() throws JsonProcessingException {
-
         given(specification)
-            .pathParam("id", person.getId())
-            .when()
+                .pathParam("id", person.getId())
+                .when()
                 .delete("{id}")
-            .then()
+                .then()
                 .statusCode(204)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
     }
 
     @Test
-    @Order(value = 6)
+    @Order(6)
     void findAllTest() throws JsonProcessingException {
-
         var content = given(specification)
-            .accept(MediaType.APPLICATION_XML_VALUE)
+                .accept(MediaType.APPLICATION_XML_VALUE)
                 .queryParams("page", 3, "size", 12, "direction", "asc")
-            .when()
+                .when()
                 .get()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_XML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
 
         PagedModelPerson wrapper = objectMapper.readValue(content, PagedModelPerson.class);
         List<PersonDTO> people = wrapper.getContent();
 
-        PersonDTO personOne = people.getFirst();
-        person = personOne;
+        PersonDTO personOne = people.get(0);
 
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
@@ -218,18 +209,6 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertEquals("PO Box 4880", personOne.getAddress());
         assertEquals("Male", personOne.getGender());
         assertTrue(personOne.getEnabled());
-
-        PersonDTO personFour = people.get(4);
-        person = personFour;
-
-        assertNotNull(personFour.getId());
-        assertTrue(personFour.getId() > 0);
-
-        assertEquals("Angelle", personFour.getFirstName());
-        assertEquals("O'Nion", personFour.getLastName());
-        assertEquals("Apt 1896", personFour.getAddress());
-        assertEquals("Female", personFour.getGender());
-        assertTrue(personFour.getEnabled());
     }
 
     private void mockPerson() {

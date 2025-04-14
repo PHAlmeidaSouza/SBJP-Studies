@@ -27,7 +27,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PersonService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
     private final PagedResourcesAssembler<PersonDTO> assembler;
@@ -39,7 +38,6 @@ public class PersonService {
     }
 
     public PagedModel<EntityModel<PersonDTO>> findAll(Pageable pageable) {
-
         logger.info("Finding all People!");
 
         var people = personRepository.findAll(pageable);
@@ -57,11 +55,11 @@ public class PersonService {
                                         pageable.getPageSize(),
                                         String.valueOf(pageable.getSort())))
                 .withSelfRel();
+
         return assembler.toModel(peopleWithLinks, findAllLink);
     }
 
     public PagedModel<EntityModel<PersonDTO>> findByName(String firstName, Pageable pageable) {
-
         logger.info("Finding People by name!");
 
         var people = personRepository.findPeopleByName(firstName, pageable);
@@ -79,6 +77,7 @@ public class PersonService {
                                         pageable.getPageSize(),
                                         String.valueOf(pageable.getSort())))
                 .withSelfRel();
+
         return assembler.toModel(peopleWithLinks, findAllLink);
     }
 
@@ -93,7 +92,6 @@ public class PersonService {
     }
 
     public PersonDTO create(PersonDTO person) {
-
         if (person == null) throw new RequiredObjectIsNullException();
 
         logger.info("Creating one Person!");
@@ -113,7 +111,6 @@ public class PersonService {
     }
 
     public PersonDTO update(PersonDTO person) {
-
         if (person == null) throw new RequiredObjectIsNullException();
 
         logger.info("Updating one Person!");
@@ -131,7 +128,6 @@ public class PersonService {
     }
 
     public void delete(Long id) {
-
         logger.info("Deleting one Person!");
 
         Person entity = personRepository.findById(id)
@@ -141,7 +137,6 @@ public class PersonService {
 
     @Transactional
     public PersonDTO disablePerson(Long id) {
-
         logger.info("Disabling one Person!");
 
         personRepository.findById(id)

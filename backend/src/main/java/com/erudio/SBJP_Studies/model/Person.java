@@ -34,5 +34,4 @@ public class Person implements Serializable {
 
     @Column(nullable = false)
     private Boolean enabled;
-
 }

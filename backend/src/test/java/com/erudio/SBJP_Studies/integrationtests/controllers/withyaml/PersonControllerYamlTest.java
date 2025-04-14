@@ -18,7 +18,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -29,9 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PersonControllerYamlTest extends AbstractIntegrationTest {
 
     private static RequestSpecification specification;
-
     private static YAMLMapper objectMapper;
-
     private static PersonDTO person;
 
     @BeforeAll
@@ -45,31 +42,31 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
     void createTest() throws JsonProcessingException {
         mockPerson();
 
-         specification = new RequestSpecBuilder()
-             .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
-             .setBasePath("/api/person/v1")
-             .setPort(TestConfig.SERVER_PORT)
-                 .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                 .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-             .build();
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfig.HEADER_PARAM_ORIGIN, TestConfig.ORIGIN_SBPJ)
+                .setBasePath("/api/person/v1")
+                .setPort(TestConfig.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
 
         var createdPerson = given().config(
-                RestAssuredConfig.config()
-                        .encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(
-                                MediaType.APPLICATION_YAML_VALUE,
-                                ContentType.TEXT))
+                        RestAssuredConfig.config()
+                                .encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(
+                                        MediaType.APPLICATION_YAML_VALUE,
+                                        ContentType.TEXT))
                 ).spec(specification)
-            .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .accept(MediaType.APPLICATION_YAML_VALUE)
+                .contentType(MediaType.APPLICATION_YAML_VALUE)
+                .accept(MediaType.APPLICATION_YAML_VALUE)
                 .body(person, objectMapper)
-            .when()
+                .when()
                 .post()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .as(PersonDTO.class, objectMapper);
+                .as(PersonDTO.class, objectMapper);
 
         person = createdPerson;
 
@@ -89,22 +86,22 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
         person.setLastName("Benedit Torvalds");
 
         var createdPerson = given().config(
-                RestAssuredConfig.config()
-                        .encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(
-                                MediaType.APPLICATION_YAML_VALUE,
-                                ContentType.TEXT))
-        ).spec(specification)
-            .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .accept(MediaType.APPLICATION_YAML_VALUE)
+                        RestAssuredConfig.config()
+                                .encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(
+                                        MediaType.APPLICATION_YAML_VALUE,
+                                        ContentType.TEXT))
+                ).spec(specification)
+                .contentType(MediaType.APPLICATION_YAML_VALUE)
+                .accept(MediaType.APPLICATION_YAML_VALUE)
                 .body(person, objectMapper)
-            .when()
+                .when()
                 .put()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .as(PersonDTO.class, objectMapper);
+                .as(PersonDTO.class, objectMapper);
 
         person = createdPerson;
 
@@ -128,17 +125,17 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
                                         MediaType.APPLICATION_YAML_VALUE,
                                         ContentType.TEXT))
                 ).spec(specification)
-            .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .accept(MediaType.APPLICATION_YAML_VALUE)
+                .contentType(MediaType.APPLICATION_YAML_VALUE)
+                .accept(MediaType.APPLICATION_YAML_VALUE)
                 .pathParam("id", person.getId())
-            .when()
+                .when()
                 .get("{id}")
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .as(PersonDTO.class, objectMapper);
+                .as(PersonDTO.class, objectMapper);
 
         person = createdPerson;
 
@@ -162,16 +159,16 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
                                         MediaType.APPLICATION_YAML_VALUE,
                                         ContentType.TEXT))
                 ).spec(specification)
-            .accept(MediaType.APPLICATION_YAML_VALUE)
+                .accept(MediaType.APPLICATION_YAML_VALUE)
                 .pathParam("id", person.getId())
-            .when()
+                .when()
                 .patch("{id}")
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .as(PersonDTO.class, objectMapper);
+                .as(PersonDTO.class, objectMapper);
 
         person = createdPerson;
 
@@ -195,14 +192,14 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
                                         MediaType.APPLICATION_YAML_VALUE,
                                         ContentType.TEXT))
                 ).spec(specification)
-            .pathParam("id", person.getId())
-            .when()
+                .pathParam("id", person.getId())
+                .when()
                 .delete("{id}")
-            .then()
+                .then()
                 .statusCode(204)
-            .extract()
+                .extract()
                 .body()
-                    .asString();
+                .asString();
     }
 
     @Test
@@ -215,16 +212,16 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
                                         MediaType.APPLICATION_YAML_VALUE,
                                         ContentType.TEXT))
                 ).spec(specification)
-            .accept(MediaType.APPLICATION_YAML_VALUE)
+                .accept(MediaType.APPLICATION_YAML_VALUE)
                 .queryParams("page", 3, "size", 12, "direction", "asc")
-            .when()
+                .when()
                 .get()
-            .then()
+                .then()
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
-            .extract()
+                .extract()
                 .body()
-                    .as(PagedModelPerson.class, objectMapper);
+                .as(PagedModelPerson.class, objectMapper);
 
         List<PersonDTO> people = response.getContent();
 

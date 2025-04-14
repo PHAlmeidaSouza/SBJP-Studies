@@ -148,14 +148,13 @@ class BookControllerJsonTest extends AbstractIntegrationTest {
                 .statusCode(204);
     }
 
-
     @Test
     @Order(5)
     void findAllTest() throws JsonProcessingException {
 
         var content = given(specification)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .queryParams("page", 0 , "size", 12, "direction", "asc")
+                .queryParams("page", 0, "size", 12, "direction", "asc")
                 .when()
                 .get()
                 .then()

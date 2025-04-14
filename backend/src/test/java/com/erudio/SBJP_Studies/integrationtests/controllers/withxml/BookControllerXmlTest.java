@@ -78,7 +78,6 @@ class BookControllerXmlTest extends AbstractIntegrationTest {
     @Test
     @Order(2)
     void updateTest() throws JsonProcessingException {
-
         book.setTitle("Docker Deep Dive - Updated");
 
         var content = given(specification)
@@ -107,7 +106,6 @@ class BookControllerXmlTest extends AbstractIntegrationTest {
     @Test
     @Order(3)
     void findByIdTest() throws JsonProcessingException {
-
         var content = given(specification)
                 .contentType(MediaType.APPLICATION_XML_VALUE)
                 .accept(MediaType.APPLICATION_XML_VALUE)
@@ -137,7 +135,6 @@ class BookControllerXmlTest extends AbstractIntegrationTest {
     @Test
     @Order(4)
     void deleteTest() throws JsonProcessingException {
-
         given(specification)
                 .pathParam("id", book.getId())
                 .when()
@@ -146,14 +143,12 @@ class BookControllerXmlTest extends AbstractIntegrationTest {
                 .statusCode(204);
     }
 
-
     @Test
     @Order(5)
     void findAllTest() throws JsonProcessingException {
-
         var content = given(specification)
                 .accept(MediaType.APPLICATION_XML_VALUE)
-                .queryParams("page", 0 , "size", 12, "direction", "asc")
+                .queryParams("page", 0, "size", 12, "direction", "asc")
                 .when()
                 .get()
                 .then()

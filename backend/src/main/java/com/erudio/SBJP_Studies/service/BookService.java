@@ -2,7 +2,6 @@ package com.erudio.SBJP_Studies.service;
 
 import com.erudio.SBJP_Studies.controller.BookController;
 import com.erudio.SBJP_Studies.data.dto.v1.BookDTO;
-import com.erudio.SBJP_Studies.data.dto.v1.PersonDTO;
 import com.erudio.SBJP_Studies.exception.RequiredObjectIsNullException;
 import com.erudio.SBJP_Studies.exception.ResourceNotFoundException;
 import com.erudio.SBJP_Studies.model.Book;
@@ -24,9 +23,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class BookService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-
     private final BookRepository bookRepository;
-
     private final PagedResourcesAssembler<BookDTO> assembler;
 
     public BookService(BookRepository bookRepository, PagedResourcesAssembler<BookDTO> assembler) {

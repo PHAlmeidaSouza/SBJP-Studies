@@ -162,7 +162,6 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
                 .statusCode(204);
     }
 
-
     @Test
     @Order(5)
     void findAllTest() throws JsonProcessingException {

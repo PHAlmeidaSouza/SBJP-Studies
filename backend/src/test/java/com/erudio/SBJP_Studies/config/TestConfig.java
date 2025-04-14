@@ -9,5 +9,4 @@ public interface TestConfig {
 
     String ORIGIN_SBPJ = "http://localhost:8080";
     String ORIGIN_NOT_ALLOWED = "http:8081//anyorigin.com";
-
 }

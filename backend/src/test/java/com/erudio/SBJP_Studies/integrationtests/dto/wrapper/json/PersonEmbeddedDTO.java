@@ -20,5 +20,4 @@ public class PersonEmbeddedDTO implements Serializable {
 
     @JsonProperty("people")
     private List<PersonDTO> people;
-
 }
